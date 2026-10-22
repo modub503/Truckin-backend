@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    /* Patriotic palette — Old Glory red, Old Glory blue, star white, over a deep navy ground */
+    --bg: #050B1E;
+    --surface: #0D1733;
+    --surface-2: #142048;
+    --surface-3: #1C2A5E;
+    --border: #1F2F60;
+    --border-accent: #2A3F7A;
+    --text: #F9FAFB;
+    --text-2: #B5C2E0;
+    --text-3: #7B88AB;
+    --brand: #DC2626;              /* Old Glory red */
+    --brand-rgb: 220, 38, 38;
+    --brand-hover: #B91C1C;
+    --flag-blue: #1E3A8A;          /* Old Glory blue (deep) */
+    --flag-blue-rgb: 30, 58, 138;
+    --flag-blue-light: #3B5BDB;
+    --flag-white: #F9FAFB;
+    --cyan: #3B5BDB;
+    --active: #10B981;
+    --pending: #F59E0B;
+    --alert: #EF4444;
+    --transit: #3B82F6;
+}
+
+html, body, #root {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+}
+
+/*
+  Patriotic body background:
+   • bottom layer — deep navy ground
+   • a widely-spaced star field (small white dots) covering the whole page
+   • two very soft red + blue glows top-right and top-left for warmth
+   • a thin horizontal red/white/red stripe band at the very top edge
+     (so every page carries the flag motif without crowding content)
+*/
+body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image:
+        /* top-edge flag stripes band (red / white / red) — very thin */
+        linear-gradient(
+            to bottom,
+            rgba(220, 38, 38, 0.9) 0px,
+            rgba(220, 38, 38, 0.9) 4px,
+            rgba(249, 250, 251, 0.9) 4px,
+            rgba(249, 250, 251, 0.9) 8px,
+            rgba(220, 38, 38, 0.9) 8px,
+            rgba(220, 38, 38, 0.9) 12px,
+            transparent 12px
+        ),
+        /* star field — small white dots on a transparent canvas */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><g fill='%23F9FAFB' fill-opacity='0.07'><circle cx='20' cy='28' r='0.9'/><circle cx='75' cy='55' r='0.7'/><circle cx='110' cy='15' r='1'/><circle cx='40' cy='95' r='0.8'/><circle cx='95' cy='110' r='0.9'/><circle cx='125' cy='75' r='0.7'/><circle cx='15' cy='120' r='0.7'/></g></svg>"),
+        radial-gradient(1200px 500px at 90% -10%, rgba(220, 38, 38, 0.12), transparent 60%),
+        radial-gradient(900px 400px at -5% 20%, rgba(30, 58, 138, 0.18), transparent 60%);
+    background-repeat: repeat-x, repeat, no-repeat, no-repeat;
+    background-size: 100% 12px, 140px 140px, auto, auto;
+    background-position: top left, 0 0, 0 0, 0 0;
+    background-attachment: scroll, fixed, fixed, fixed;
+}
+
+.font-display { font-family: 'Barlow Condensed', 'Cabinet Grotesk', sans-serif; letter-spacing: -0.01em; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Reusable patriotic accents */
+.flag-stripes {
+    background: repeating-linear-gradient(
+        to bottom,
+        #DC2626 0 6px,
+        #F9FAFB 6px 12px
+    );
+}
+.flag-canton {
+    background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'><g fill='%23F9FAFB'><polygon points='10,6 11.2,9.4 14.8,9.4 11.8,11.6 13,15 10,12.8 7,15 8.2,11.6 5.2,9.4 8.8,9.4'/><polygon points='30,6 31.2,9.4 34.8,9.4 31.8,11.6 33,15 30,12.8 27,15 28.2,11.6 25.2,9.4 28.8,9.4'/><polygon points='50,6 51.2,9.4 54.8,9.4 51.8,11.6 53,15 50,12.8 47,15 48.2,11.6 45.2,9.4 48.8,9.4'/><polygon points='20,24 21.2,27.4 24.8,27.4 21.8,29.6 23,33 20,30.8 17,33 18.2,29.6 15.2,27.4 18.8,27.4'/><polygon points='40,24 41.2,27.4 44.8,27.4 41.8,29.6 43,33 40,30.8 37,33 38.2,29.6 35.2,27.4 38.8,27.4'/></g></svg>") center/60px 40px repeat,
+        #1E3A8A;
+}
+.flag-ribbon {
+    position: relative;
+}
+.flag-ribbon::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(to right, #DC2626 0 33%, #F9FAFB 33% 66%, #1E3A8A 66% 100%);
+    pointer-events: none;
+}
+
+@layer base {
+    :root {
+        --background: 220 60% 7%;
+        --foreground: 210 20% 98%;
+        --card: 222 50% 11%;
+        --card-foreground: 210 20% 98%;
+        --popover: 222 50% 11%;
+        --popover-foreground: 210 20% 98%;
+        --primary: 0 72% 51%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 222 48% 20%;
+        --secondary-foreground: 210 20% 98%;
+        --muted: 222 48% 18%;
+        --muted-foreground: 220 9% 68%;
+        --accent: 0 72% 51%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 222 40% 22%;
+        --input: 222 40% 22%;
+        --ring: 0 72% 51%;
+        --chart-1: 0 72% 51%;
+        --chart-2: 220 68% 42%;
+        --chart-3: 152 81% 39%;
+        --chart-4: 43 96% 56%;
+        --chart-5: 220 20% 98%;
+        --radius: 0.65rem;
+    }
+}
+
+@layer base {
+    * { @apply border-border; }
+    body { @apply bg-background text-foreground; }
+}
+
+/* subtle grid noise on cards (now cool-navy to match patriotic ground) */
+.card-noise {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 40%),
+        var(--surface-2);
+}
+
+.kpi-glow { box-shadow: 0 0 0 1px rgba(220,38,38,0.18), 0 8px 30px rgba(220,38,38,0.08); }
+
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #1F2F60; border-radius: 8px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+
+/* focus ring for inputs */
+.input-focus:focus-within { box-shadow: 0 0 0 2px rgba(220,38,38,0.35); }
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--brand) 0%, #F9FAFB 50%, var(--flag-blue-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.status-pill {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.status-Booked      { background: rgba(59,91,219,0.18); color: #93C5FD; }
+.status-Dispatched  { background: rgba(59,130,246,0.18); color: #93C5FD; }
+.status-In-Transit  { background: rgba(245,158,11,0.18); color: #FDE68A; }
+.status-Delivered   { background: rgba(16,185,129,0.18); color: #6EE7B7; }
+.status-Invoiced    { background: rgba(220,38,38,0.18); color: #FCA5A5; }
+.status-Paid        { background: rgba(34,197,94,0.20); color: #86EFAC; }
+.status-Cancelled   { background: rgba(239,68,68,0.18); color: #FCA5A5; }
+
+/*
+  Keep all existing orange-* utility classes working but remap them to the new
+  patriotic red brand so the entire app re-skins without touching 20+ page files.
+*/
+.bg-orange-500 { background-color: var(--brand) !important; }
+.text-orange-400, .text-orange-500 { color: var(--brand) !important; }
+.border-orange-500, .border-orange-500\/20, .border-orange-500\/30, .border-orange-500\/40, .border-orange-500\/50, .border-orange-500\/60 { border-color: rgba(var(--brand-rgb), 0.5) !important; }
+.bg-orange-500\/5, .bg-orange-500\/10, .bg-orange-500\/15 { background-color: rgba(var(--brand-rgb), 0.1) !important; }
+.hover\:bg-orange-600:hover, .hover\:bg-orange-500:hover { background-color: var(--brand-hover) !important; }
+.focus\:border-orange-500:focus { border-color: var(--brand) !important; }

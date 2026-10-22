@@ -1,0 +1,53 @@
+# Files that must NOT reach the public internet.
+#
+# The publish directory is build/ — the compiled React app. Everything else
+# in this folder is working material: the source, the dependencies, the local
+# environment file and the build scripts. None of that belongs on the
+# internet, and the local .env must never be published.
+#
+# This is the publish-side lock. .gitignore is the repo-side one. Both must
+# agree: .gitignore decides what Netlify uploads, .netlifyignore decides what
+# Netlify publishes.
+#
+# The same file is copied into build/ by scripts/prepare-publish.mjs, so a
+# hand-dropped build/ folder is protected the same way.
+
+# --- source trees, never part of the published app ---
+src/
+public/
+scripts/
+node_modules/
+
+# --- build config, not served content ---
+# netlify.toml is deliberately NOT excluded: a hand-dropped build/ folder
+# needs it at its root for Netlify to apply the SPA fallback and the /api/*
+# proxy. It holds no secrets — only the public backend hostname.
+package.json
+package-lock.json
+yarn.lock
+jsconfig.json
+craco.config.js
+postcss.config.js
+tailwind.config.js
+components.json
+.gitignore
+.netlifyignore
+README.md
+
+# --- secrets and local config ---
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+*token.json*
+*credentials.json*
+*.pem
+*.key
+
+# --- logs & OS noise ---
+*.log
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
