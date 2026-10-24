@@ -63,8 +63,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
-    "publish": "node scripts/prepare-publish.mjs"
+    "test": "craco test"
   },
   "browserslist": {
     "production": [
